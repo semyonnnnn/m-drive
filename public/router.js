@@ -7,6 +7,7 @@ document.addEventListener("click", (e) => {
   // Only handle internal links
   if (url.startsWith("/")) {
     e.preventDefault(); // Prevent full page reload
+    console.log("hi");
     loadPage(url); // Custom function to fetch and insert content
     history.pushState(null, "", url); // Update browser URL
   }
@@ -18,9 +19,14 @@ window.addEventListener("popstate", () => {
 
 async function loadPage(url) {
   try {
-    const res = await fetch(url, {
-      headers: { "X-Requested-With": "XMLHttpRequest" },
-    });
+    console.log("hi");
+
+    const ajaxUrl = url.includes("?") ? url + "&ajax=1" : url + "?ajax=1";
+    const res = await fetch(ajaxUrl);
+
+    // const res = await fetch(url, {
+    //   headers: { "X-Requested-With": "XMLHttpRequest" },
+    // });
     const html = await res.text();
 
     // Insert into a container
