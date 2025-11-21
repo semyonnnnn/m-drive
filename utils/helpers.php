@@ -1,8 +1,8 @@
 <?php
 
-function _file(string $path): string
+function _file(string $base_path_with_file): string
 {
-    return __DIR__ . "/../$path.php";
+    return BASE_PATH . "$base_path_with_file.php";
 }
 
 function dd(mixed $param): never
@@ -11,4 +11,9 @@ function dd(mixed $param): never
     var_dump($param);
     echo "</pre>";
     die();
+}
+
+function _include(string $base_path_with_file)
+{
+    return include _file($base_path_with_file);
 }

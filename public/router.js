@@ -19,14 +19,9 @@ window.addEventListener("popstate", () => {
 
 async function loadPage(url) {
   try {
-    console.log("hi");
-
-    const ajaxUrl = url.includes("?") ? url + "&ajax=1" : url + "?ajax=1";
-    const res = await fetch(ajaxUrl);
-
-    // const res = await fetch(url, {
-    //   headers: { "X-Requested-With": "XMLHttpRequest" },
-    // });
+    const res = await fetch(url, {
+      headers: { "X-Requested-With": "XMLHttpRequest" },
+    });
     const html = await res.text();
 
     // Insert into a container

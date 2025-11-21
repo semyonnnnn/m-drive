@@ -1,35 +1,24 @@
 <?php
-include __DIR__ . "/../utils/helpers.php";
+const BASE_PATH = __DIR__ . '/../';
+include BASE_PATH . "utils/helpers.php";
+_include('vendor/autoload');
 
-var_dump($_GET);
+use App\Core\OldRouter;
+use App\Core\Router;
 
-// Detect AJAX request
-$isAjax = !empty($_SERVER['HTTP_X_REQUESTED_WITH']) &&
-    strtolower($_SERVER['HTTP_X_REQUESTED_WITH']) === 'xmlhttprequest';
+// new OldRouter;
 
-if ($isAjax) {
-    dd('ajax');
-    // Return only the page content, no head, body, header/footer
-    $page = $_SERVER['REQUEST_URI'] === '/contacts' ? 'contacts' : 'about';
-    include _file("pages/$page");
-    return; // stop execution here for AJAX
+$router = new Router;
+// $routes = _include('routes');
+
+$router->get('/', 'Main');
+$router->get('/about', 'About');
+$router->get('/contacts', 'Contacts');
+
+foreach ($router->getRoutes() as $route) {
+    $router->smallBang($route['uri'], $route['method']);
 }
 
-// Full page load
-include _file('partials/head');
-?>
 
-<body>
-    <main id="app">
-        <?php include _file('pages/main') ?>
-        <section id="content">
-            <?php $page = $_SERVER['REQUEST_URI'] === '/contacts' ? 'contacts' : 'about';
-            include _file("pages/$page");
-            // dd($_SERVER);
-            ?>
-        </section>
-    </main>
+// dd($routes);
 
-</body>
-
-</html>
